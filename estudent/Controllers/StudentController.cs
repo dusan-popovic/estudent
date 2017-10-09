@@ -15,10 +15,32 @@ namespace estudent.Controllers
         private estudentDBContext db = new estudentDBContext();
 
         // GET: Student
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(db.Studenti.ToList());
+            ViewBag.studentIsSelected = false;
+
+            List<Student> studenti = db.Studenti.ToList();
+
+            if (!id.HasValue || id == 0)
+                return View(studenti);
+
+            List<Student> found = studenti.Where(x => x.ID == id).ToList();
+            if(found.Count() == 0)
+                return View(studenti);
+
+            
+            
+            InfoBoxViewData dat = new InfoBoxViewData();
+            dat.selectedStudent = found.First();
+            dat.passedExams = db.Ispiti.Where(x => x.BI == dat.selectedStudent.BI).ToList();
+            dat.avg = dat.passedExams.Count > 0 ? dat.passedExams.Average(x => x.Ocena).ToString("N2") : "N.A.";
+
+            ViewBag.studentIsSelected = true;
+            ViewBag.infoBoxViewData = dat;
+
+            return View(studenti);
         }
+
 
         // GET: Student/Details/5
         public ActionResult Details(int? id)
@@ -32,7 +54,13 @@ namespace estudent.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+
+            InfoBoxViewData dat = new InfoBoxViewData();
+            dat.passedExams = db.Ispiti.Where(x => x.BI == student.BI).ToList();
+            dat.avg = dat.passedExams.Count>0 ? dat.passedExams.Average(x => x.Ocena).ToString("N2") : "N.A.";
+            dat.selectedStudent = student;
+
+            return View(dat);
         }
 
         // GET: Student/Create

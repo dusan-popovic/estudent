@@ -155,6 +155,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InfoBoxViewData.cs" />
     <Compile Include="Models\estudentDBContext.cs" />
     <Compile Include="Models\Ispit.cs" />
     <Compile Include="Models\Student.cs" />
@@ -213,6 +214,7 @@
     <Content Include="Views\Ispit\Details.cshtml" />
     <Content Include="Views\Ispit\Edit.cshtml" />
     <Content Include="Views\Ispit\Index.cshtml" />
+    <Content Include="Views\Student\_InfoBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,89 @@
+﻿@model estudent.Models.InfoBoxViewData
+
+<table>
+    <tr>
+        <td>
+            <dl class="dl-horizontal">
+                <h4>
+                    Lični podaci:
+                </h4>
+
+                <dt>
+                    BI
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.selectedStudent.BI)
+                </dd>
+
+                <dt>
+                    Ime
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.selectedStudent.Ime)
+                </dd>
+
+                <dt>
+                    Prezime
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.selectedStudent.Prezime)
+                </dd>
+
+                <dt>
+                    Adresa
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.selectedStudent.Adresa)
+                </dd>
+
+                <dt>
+                    Grad
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.selectedStudent.Grad)
+                </dd>
+
+
+            </dl>
+        </td>
+        <td>
+
+
+            <dl class="dl-horizontal">
+                <h4>
+                    Položeni ispiti:
+                </h4>
+
+
+                @foreach (var ispit in Model.passedExams)
+                {
+                    <dt>
+                        @Server.HtmlEncode(ispit.Predmet)
+                    </dt>
+
+                        <dd>
+                            @Server.HtmlEncode(ispit.Ocena.ToString())
+                        </dd>
+                }
+
+                <br />
+
+                <dt>
+                    Prosečna ocena
+                </dt>
+
+                <dd>
+                    @Server.HtmlEncode(Model.avg)
+                </dd>
+
+
+
+            </dl>
+        </td>
+    </tr>
+</table>
