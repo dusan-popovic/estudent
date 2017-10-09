@@ -1,0 +1,48 @@
+﻿@model estudent.Models.Ispit
+
+@{
+    ViewBag.Title = "Brisanje ispita";
+}
+
+<h2>Obriši ispit</h2>
+
+<h3>Da li ste sigurni da želite da obrišete ovaj ispit?</h3>
+<div>
+    <h4>Ispit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Predmet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Predmet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ocena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ocena)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Obriši" class="btn btn-default" /> |
+            @Html.ActionLink("Nazad na listu", "Index")
+        </div>
+    }
+</div>
