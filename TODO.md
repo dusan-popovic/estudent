@@ -8,3 +8,4 @@ DODATNO:
 - povezati objekte dinamicki i u skladu sa tim na stranici
 - predmet u tabeli je trebalo da se zove predmetID
 - grafici
+- koriscenje skladistenih procedura ili bar pogleda
