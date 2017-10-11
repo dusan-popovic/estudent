@@ -10,8 +10,9 @@ namespace estudent.Models
     public partial class Student
     {
         public int ID { get; set; }
-
+        
         [Required]
+        [BIAttribute()]
         public string BI { get; set; }
 
         [Required]
@@ -26,4 +27,7 @@ namespace estudent.Models
         [Required]
         public string Grad { get; set; }
     }
+
+    
+
 }

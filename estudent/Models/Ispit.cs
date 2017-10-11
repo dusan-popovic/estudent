@@ -11,12 +11,15 @@ namespace estudent.Models
     {
         public int ID { get; set; }
 
+        //[RegularExpression(@"([((19|20)\d{2})]|\d{2})\/[1-5000]")]
         [Required]
+        [BIAttribute()]
         public string BI { get; set; }
 
         [Required]
         public string Predmet { get; set; }
 
+        [Range(6,10,ErrorMessage ="Ocena van opsega.")]
         public int Ocena { get; set; }
     }
 }

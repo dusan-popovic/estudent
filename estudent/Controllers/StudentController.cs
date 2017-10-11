@@ -18,7 +18,6 @@ namespace estudent.Controllers
         public ActionResult Index(int? id)
         {
             ViewBag.studentIsSelected = false;
-
             List<Student> studenti = db.Studenti.ToList();
 
             if (!id.HasValue || id == 0)
@@ -143,11 +142,6 @@ namespace estudent.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult Tool()
-        //{
-        //    return View();
-        //}
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -155,6 +149,98 @@ namespace estudent.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        void resetDB()
+        {
+            string[] sArrayS = System.IO.File.ReadAllLines(Server.MapPath("~/App_Data/studenti.txt"));
+            string[] iArrayS = System.IO.File.ReadAllLines(Server.MapPath("~/App_Data/ispiti.txt"));
+            int cnt;
+
+            db.Studenti.RemoveRange(db.Studenti);
+            db.Ispiti.RemoveRange(db.Ispiti);
+
+            cnt = 1;
+            foreach (string row in sArrayS)
+            {
+                string[] studentSplited = row.Split(new char[] {'\t'});
+                Student s = new Student();
+                s.ID = cnt++;//int.Parse(studentSplited[0]);
+                s.BI = studentSplited[0];
+                s.Ime = studentSplited[1];
+                s.Prezime = studentSplited[2];
+                s.Adresa = studentSplited[3];
+                s.Grad = studentSplited[4];
+
+                db.Studenti.Add(s);
+            }
+
+            cnt = 1;
+            foreach (string row in iArrayS)
+            {
+                string[] ispitSplited = row.Split(new char[]{'\t'});
+                Ispit i = new Ispit();
+                i.ID = cnt++;//int.Parse(ispitSplited[0]);
+                i.BI = ispitSplited[0];
+                i.Predmet = ispitSplited[1];
+                i.Ocena = int.Parse(ispitSplited[2]);
+
+                db.Ispiti.Add(i);
+            }
+            db.SaveChanges();
+        }
+
+        void downloadDB()
+        {
+            char[] tabSeparator = { '\t' };
+            string[] sArrayS = System.IO.File.ReadAllLines(Server.MapPath("~/App_Data/studenti.csv"));
+            string[] iArrayS = System.IO.File.ReadAllLines(Server.MapPath("~/App_Data/ispiti.csv"));
+            int cnt;
+
+            db.Studenti.RemoveRange(db.Studenti);
+            db.Ispiti.RemoveRange(db.Ispiti);
+
+            cnt = 13;//TODO: .. 1
+            foreach (string row in sArrayS)
+            {
+                string[] studentSplited = row.Split(tabSeparator);
+                Student s = new Student();
+                s.ID = cnt++;//int.Parse(studentSplited[0]);
+                s.BI = studentSplited[0];
+                s.Ime = studentSplited[1];
+                s.Prezime = studentSplited[2];
+                s.Adresa = studentSplited[3];
+                s.Grad = studentSplited[4];
+
+                db.Studenti.Add(s);
+            }
+
+            cnt = 13;//TODO: .. 1
+            foreach (string row in iArrayS)
+            {
+                string[] ispitSplited = row.Split(tabSeparator);
+                Ispit i = new Ispit();
+                i.ID = cnt++;//int.Parse(ispitSplited[0]);
+                i.BI = ispitSplited[0];
+                i.Predmet = ispitSplited[1];
+                i.Ocena = int.Parse(ispitSplited[2]);
+
+                db.Ispiti.Add(i);
+            }
+            db.SaveChanges();
+        }
+
+        void backupDB()
+        {
+            List<Student> studenti = db.Studenti.ToList();
+            List<Ispit> ispiti = db.Ispiti.ToList();
+
+            System.IO.File.WriteAllLines(Server.MapPath("~/App_Data/studenti.csv"), Array.ConvertAll(studenti.ToArray(),
+                new Converter<Student, string>(x => (x.ID + "\t" + x.BI + "\t" + x.Ime + "\t" + x.Prezime + "\t" + x.Adresa + "\t" + x.Grad + "\n"))
+                ));
+            System.IO.File.WriteAllLines(Server.MapPath("~/App_Data/ispiti.csv"), Array.ConvertAll(ispiti.ToArray(),
+                new Converter<Ispit, string>(x => (x.ID + "\t" + x.BI + "\t" + x.Predmet + "\t" + x.Ocena + "\n"))
+                ));
         }
     }
 }
